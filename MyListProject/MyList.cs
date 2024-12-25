@@ -104,29 +104,11 @@ namespace MyListProject
             if (CheckIndex(index)) { Console.WriteLine("Неверный индекс"); return; }
             if (IsEnoughMemory()) Resize();
 
-
-            var newArray = new T[++Count];
-
-
-
-            for(int i = 0; i < index; i++)
-            {
-                newArray[i]= _array[i];
+            for(int i=Count; i>index; i--) {
+                _array[i] = _array[i-1];
             }
-
-
-            newArray[index] = element;
-
-
-
-            for(int i =index+1;i< Count; i++)
-            {
-                newArray[i]= _array[i-1];
-            }
-
-
-
-            _array = newArray;
+            _array[index] = element;
+            Count++;
         }
 
 
@@ -137,41 +119,23 @@ namespace MyListProject
             if (CheckIndex(index)) { Console.WriteLine("Неверный индекс"); return; }
 
 
-
             int AdditionalMemory = elements.Length;
-            int newArrayLength= Count+ AdditionalMemory;
-            int newIndex1 = index;
-            int newIndex2 = index;
+
 
             if (IsEnoughMemory(AdditionalMemory)) Resize(AdditionalMemory);
+            Count += AdditionalMemory;
 
-
-
-            var newArray = new T[newArrayLength];
-            for(int i=0; i< index; i++)
+            for (int i = Count; i >= index + AdditionalMemory; i--)
             {
-                newArray[i] = _array[i];
+                _array[i] = _array[i - AdditionalMemory];
             }
 
 
-
-
-            foreach (var element in elements)
+            for (int i = index, j = 0; i < index + AdditionalMemory; i++, j++)
             {
-                newArray[newIndex1++]= element;
+                _array[i] = elements[j];
             }
 
-
-
-
-            for (int i = newIndex1; i < newArrayLength; i++)
-            {
-                newArray[i] = _array[newIndex2++];
-            }
-
-
-            Count = newArrayLength;
-            _array = newArray;
         }
 
 
@@ -224,7 +188,8 @@ namespace MyListProject
 
         {
 
-            int newLength = _array.Length * 2 + AdditionalMemory;
+            int newLength = _array.Length * 2 + AdditionalMemory + 1;
+            Capacity = newLength;
 
             var newArray = new T[newLength];
 
@@ -265,15 +230,14 @@ namespace MyListProject
         }
 
 
-        private bool IsEnoughMemory(int AdditionalMemory = 0) => Count + AdditionalMemory >= Capacity;
-
-        private bool CheckIndex(int index)=>index<0 || index > Count;
-        
-
-        
+        private bool IsEnoughMemory(int AdditionalMemory = 0) => Count + AdditionalMemory >= Capacity - 1;
 
 
-        public  void Print()
+
+        private bool CheckIndex(int index) => index < 0 || index >= Count;
+
+
+        public void Print()
         {
             for (int i = 0; i < Count; i++)
             {
