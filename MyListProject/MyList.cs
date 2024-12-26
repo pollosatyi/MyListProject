@@ -242,7 +242,9 @@ namespace MyListProject
             for (int i = 0; i < Count; i++)
             {
                 Console.Write(_array[i] + " ");
+                
             }
+            Console.WriteLine();
         }
 
 
