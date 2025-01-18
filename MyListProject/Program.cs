@@ -13,24 +13,24 @@
                 MenuType menuType = (MenuType)Convert.ToInt32(Console.ReadLine());
                 switch (menuType)
                 {
-                    case MenuType.exit:
-                        IsMenuOn = false; 
+                    case MenuType.Exit:
+                        IsMenuOn = false;
                         break;
-                    case MenuType.addElementByIndex:
-                        list.Add(4, "5"); 
+                    case MenuType.AddElementByIndex:
+                        list.Add(4, "5");
                         break;
-                    case MenuType.addMass:
+                    case MenuType.AddMass:
                         string[] mass1 = new string[5] { "5", "6", "7", "8", "9" };
                         list.Add(mass1);
                         break;
-                    case MenuType.addMassByIndex:
+                    case MenuType.AddMassByIndex:
                         string[] mass2 = new string[5] { "5", "6", "7", "8", "9" };
-                        list.Add(4,mass2);
+                        list.Add(4, mass2);
                         break;
-                    case MenuType.listPrint:
-                        list.Print();
+                    case MenuType.ListPrint:
+                        list.Print(list);
                         break;
-                    case MenuType.clear:
+                    case MenuType.Clear:
                         list = new MyList<string>();
                         list.Add(new string[9] { "1", "2", "3", "4", "10", "11", "12", "13", "14" });
                         break;
@@ -39,14 +39,14 @@
                 }
 
             }
-           
+
         }
 
         public static void Print()
         {
             Console.WriteLine("Введите число для выбора программы: ");
             Console.WriteLine("0 - для выхода \n" +
-                "1 - для добавления элемента по индексу в MyList \n"  +
+                "1 - для добавления элемента по индексу в MyList \n" +
                 "2 - для добавления массива в конец списка \n" +
                 "3 - для добавления массива по индексу \n" +
                 "4 - для печати списка \n" +

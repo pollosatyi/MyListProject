@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,14 +11,9 @@ namespace MyListProject
     public class MyList<T>
 
     {
-
         private T[] _array;
 
-
-
         public int Capacity { get; set; }
-
-
 
         public int Count { get; set; }
 
@@ -26,7 +22,6 @@ namespace MyListProject
         public MyList()
 
         {
-
             _array = new T[2];
 
             Capacity = _array.Length;
@@ -104,8 +99,9 @@ namespace MyListProject
             if (CheckIndex(index)) { Console.WriteLine("Неверный индекс"); return; }
             if (IsEnoughMemory()) Resize();
 
-            for(int i=Count; i>index; i--) {
-                _array[i] = _array[i-1];
+            for (int i = Count; i > index; i--)
+            {
+                _array[i] = _array[i - 1];
             }
             _array[index] = element;
             Count++;
@@ -205,30 +201,6 @@ namespace MyListProject
 
 
 
-        private void Copy(int[] sourceArray, int[] destinationArray)
-
-        {
-
-            if (sourceArray.Length > destinationArray.Length)
-
-            {
-
-                throw new ArgumentException();
-
-            }
-
-
-
-            for (int i = 0; i < sourceArray.Length; i++)
-
-            {
-
-                destinationArray[i] = sourceArray[i];
-
-            }
-
-        }
-
 
         private bool IsEnoughMemory(int AdditionalMemory = 0) => Count + AdditionalMemory >= Capacity - 1;
 
@@ -237,21 +209,80 @@ namespace MyListProject
         private bool CheckIndex(int index) => index < 0 || index >= Count;
 
 
-        public void Print()
+        public void Print(MyList<T> myList)
         {
-            for (int i = 0; i < Count; i++)
+            foreach (var element in myList)
             {
-                Console.Write(_array[i] + " ");
-                
-            }
-            Console.WriteLine();
+                Console.Write(element + " ");
+            };
+            
+        }
+
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return new MyListEnumerator<T>(_array);
+
         }
 
 
 
+    }
+
+
+    public class MyListEnumerator<T> : IEnumerator<T>
+    {
+        private T[] _elements;
+
+        int position = -1;
+
+        public T Current
+        {
+            get
+            {
+                if (position < 0 && position >= _elements.Length)
+                {
+                    throw new IndexOutOfRangeException();
+                }
+                return _elements[position];
+            }
+        }
+
+        object IEnumerator.Current
+        {
+            get
+            {
+                return Current;
+            }
+        }
+
+        public MyListEnumerator(T[] elements)
+        {
+            _elements = elements;
+        }
 
 
 
+        public void Dispose()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Здесь должен быть сборщик мусора");
+        }
+
+        public bool MoveNext()
+        {
+            if (position < _elements.Length - 1)
+            {
+                position++;
+                return true;
+            }
+            return false;
+        }
+
+        public void Reset()
+        {
+            position = -1;
+        }
     }
 
 }

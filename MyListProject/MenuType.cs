@@ -8,11 +8,11 @@ namespace MyListProject
 {
     internal enum MenuType
     {
-        exit=0,
-        addElementByIndex=1,
-        addMass=2,
-        addMassByIndex=3,
-        listPrint=4,
-        clear=5
+        Exit = 0,
+        AddElementByIndex = 1,
+        AddMass = 2,
+        AddMassByIndex = 3,
+        ListPrint = 4,
+        Clear = 5
     }
 }
